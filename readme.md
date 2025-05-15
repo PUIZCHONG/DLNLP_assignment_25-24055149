@@ -60,6 +60,62 @@ This Jupyter notebook is specifically optimized for training in the Kaggle envir
 - Provides memory optimizations for Kaggle's GPU environment
 - Contains full mixed-precision training implementation for faster training
 
+### 6. `validate_preprocess_results.ipynb` - Preprocessing Validation Notebook
+
+This Jupyter notebook validates the preprocessing pipeline step-by-step:
+- Executes each function in the `NBMEDataProcessor` class individually
+- Visualizes the output at each stage of the preprocessing pipeline
+- Compares original and corrected annotation spans
+- Verifies that the location offsets are properly adjusted
+- Displays sample records with their annotated text spans
+- Validates data integrity across the entire pipeline
+- Provides statistical summaries of the processed data
+- Serves as a quality assurance tool for the preprocessing module
+
+## Data Preprocessing Pipeline
+
+The preprocessing pipeline implemented in `preprocess.py` and validated in `validate_preprocess_results.ipynb` consists of several key steps:
+
+1. **Loading Data**: 
+   - Reads train.csv, features.csv, patient_notes.csv, and test.csv (if available)
+   - Performs automatic path detection for flexibility across environments
+
+2. **Feature Type Identification**:
+   - Identifies gender-related features (male/female)
+   - Identifies age-related features
+   - Helps with special handling of medical notation patterns
+
+3. **Annotation Parsing**:
+   - Converts string-formatted annotations to Python objects
+   - Calculates annotation length for each record
+
+4. **Data Merging**:
+   - Joins training data with feature descriptions
+   - Joins with patient notes to create a unified dataset
+
+5. **Text Standardization**:
+   - Converts medical abbreviations to their full forms
+   - Standardizes notation for consistent processing
+   - Examples: "htn" → "hypertension", "w/" → "with"
+
+6. **Offset Correction**:
+   - Adjusts annotation position indices after text standardization
+   - Ensures annotations still point to the correct text spans
+
+7. **Space Processing**:
+   - Handles boundary spaces appropriately
+   - Ensures proper word boundaries in annotations
+   - Removes unnecessary spaces while preserving essential ones
+
+8. **Cross-Validation Setup**:
+   - Creates stratified folds using GroupKFold
+   - Groups by patient note number to prevent data leakage
+
+9. **Label Creation**:
+   - Generates standardized label format for model training
+   - Prepares labels for the F1 score calculation
+
+This pipeline is essential for ensuring that the model receives clean, well-formatted data with accurate annotations.
 ## Solution Approach
 
 Our solution uses the following approach to identify medical concepts in clinical notes:
@@ -194,7 +250,3 @@ The competition is evaluated using span-level micro-F1 score. This measures how 
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## Acknowledgments
-
-- [NBME](https://www.nbme.org/) for providing the dataset
-- Kaggle for hosting the competition
