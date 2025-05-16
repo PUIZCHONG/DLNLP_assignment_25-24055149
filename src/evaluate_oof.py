@@ -4,9 +4,9 @@
 # evaluate_oof.py - Compute span-level micro-F1 directly from OOF pickle
 #
 # Usage:
-#     python evaluate_oof.py --oof_pkl C:\\Users\\SIMON\\Desktop\\NLP\\models\\modelsoof_df_0.pkl \
-#                          --train_csv C:\\Users\\SIMON\\Desktop\\NLP\\nbme-score-clinical-patient-notes\\train.csv \
-#                          [--max_len 512] [--threshold 0.5]
+# cd C:\Users\SIMON\Desktop\NLP\src
+# python .\evaluate_oof.py --oof_pkl ..\models\modelsoof_df_0.pkl --train_csv ..\nbme-score-clinical-patient-notes\train.csv --threshold 0.5
+
 # r"""
 import argparse
 import pandas as pd
